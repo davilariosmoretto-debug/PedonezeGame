@@ -15,32 +15,32 @@ using EventSystem;
 
 namespace CharacterFile
 {
-    public abstract class Character2D
-    {
-        private int healthmax;
-        private int health;
-        private int xp;
+	public abstract class Character2D
+	{
+		private int healthmax;
+		private int health;
+		private int xp;
 
-        public string Name { get; set; }
-        
-        public int healthMax {
-            get => healthmax;
-            protected set => healthmax = Math.Clamp(value, 0, int.MaxValue);
-        }
+		public string Name { get; set; }
+		
+		public int healthMax {
+			get => healthmax;
+			protected set => healthmax = Math.Clamp(value, 0, int.MaxValue);
+		}
 
-        public int Health {
-            get => health;
-            set => health = Math.Clamp(value, 0, healthMax);
-        }
+		public int Health {
+			get => health;
+			set => health = Math.Clamp(value, 0, healthMax);
+		}
 
-        public int Xp {
-            get => xp;
-            set => xp = Math.Clamp(value, 1, 100);
-        }
-    }
+		public int Xp {
+			get => xp;
+			set => xp = Math.Clamp(value, 1, 100);
+		}
+	}
 
-    public abstract partial class Combatant : Character2D
-    {
+	public abstract partial class Combatant : Character2D
+	{
 
         private const int MAX_ARMOUR = 20;
         private const int MAX_INITIATIVE_BONUS = 20;
@@ -60,23 +60,23 @@ namespace CharacterFile
             Xp = xp;
         }
 
-        public int Id { get; set; }
-        public int PastState { get; set; }
+		public int Id { get; set; }
+		public int PastState { get; set; }
 
-        public List<int> StateTurns { get; set; } = new();
+		public List<int> StateTurns { get; set; } = new();
 
-        private int armour;
-        private int initiativeBonus;
+		private int armour;
+		private int initiativeBonus;
 
-        private int healthCopy;
-        private int armourCopy;
+		private int healthCopy;
+		private int armourCopy;
 
-        public List<Effect> ActiveEffects { get; set; } = new();
-        public List<Resistance> Resistances { get; set; } = new();
+		public List<Effect> ActiveEffects { get; set; } = new();
+		public List<Resistance> Resistances { get; set; } = new();
 
-        public static List<Combatant> Hero { get; set; } = new();
-        public static List<Combatant> Enemy { get; set; } = new();
-        public static List<Combatant> All { get; set; } = new();
+		public static List<Combatant> Hero { get; set; } = new();
+		public static List<Combatant> Enemy { get; set; } = new();
+		public static List<Combatant> All { get; set; } = new();
 
         public int Armour
         {

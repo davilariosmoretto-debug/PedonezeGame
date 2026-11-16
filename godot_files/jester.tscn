@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://ciewe1lfuum6o"]
+
+[ext_resource type="Texture2D" uid="uid://4td7mtrxbau6" path="res://jester2010-Sheet.png" id="1_aa3eu"]
+[ext_resource type="Script" uid="uid://byvb4yswet0cr" path="res://npc_script.cs" id="2_26vpm"]
+[ext_resource type="Texture2D" uid="uid://c0pee822lmjwc" path="res://pixel-art-cartoon-speech-balloon-png.webp" id="3_26vpm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oc845"]
+atlas = ExtResource("1_aa3eu")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26vpm"]
+atlas = ExtResource("1_aa3eu")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ucqf"]
+atlas = ExtResource("1_aa3eu")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qm8ot"]
+atlas = ExtResource("1_aa3eu")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bkp3o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oc845")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_26vpm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ucqf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qm8ot")
+}],
+"loop": 1,
+"name": &"Front",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_26vpm"]
+size = Vector2(25, 23)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8ucqf"]
+radius = 16.0
+height = 44.0
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1496051288]
+script = ExtResource("2_26vpm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2055998977]
+light_mask = 512
+visibility_layer = 512
+z_index = 100
+texture_filter = 1
+position = Vector2(0, 2)
+sprite_frames = SubResource("SpriteFrames_bkp3o")
+animation = &"Front"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=730751810]
+position = Vector2(-0.5, -1.5)
+shape = SubResource("RectangleShape2D_26vpm")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1485286923]
+position = Vector2(20, 35)
+collision_layer = 65281
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="DetectionArea" unique_id=722631565]
+z_index = 200
+texture_filter = 1
+position = Vector2(-21, -29)
+shape = SubResource("CapsuleShape2D_8ucqf")
+
+[node name="DialogueBubble" type="Node2D" parent="." unique_id=203641487]
+position = Vector2(20, 35)
+
+[node name="Sprite2D2" type="Sprite2D" parent="DialogueBubble" unique_id=630695472]
+z_index = 1500
+texture_filter = 1
+position = Vector2(3, -72)
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("3_26vpm")
+region_rect = Rect2(2307.825, 3.9049416, 24.2854, 23.149214)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="DialogueBubble/Sprite2D2" unique_id=1706068687]
+offset_left = -299.99997
+offset_top = -126.666664
+offset_right = 300.00003
+offset_bottom = 59.04763
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 45
+bbcode_enabled = true
+text = "Placeholder
+"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true

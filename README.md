@@ -2,7 +2,7 @@
 <h2>Programming</h2>
 <ol>
     <li> [X] Events</li>
-    <li> [ ] Main Menu</li>
+    <li> [x] Main Menu</li>
     <li> [X] NPC Behavior</li>
     <li> [ ] Loot</li>
 </ol>
@@ -14,7 +14,7 @@
   <li> [ ] Cuphead-Like Store</li>
   <li> [ ] Structures</li>
   <li> [ ] Tree variants</li>
-  <li> [ ] Bridge</li>
+  <li> [x] Bridge</li>
   <li> [ ] Path (roads)</li>
 </ol>
 
