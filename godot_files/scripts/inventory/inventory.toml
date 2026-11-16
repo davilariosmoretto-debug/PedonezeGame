@@ -1,1 +1,7 @@
-StoredItems = [{Name = "Iron Longsword", Id = 24, MaxDur = 40, CurDur = 40, Stackable = false, Quantity = 1, Damage = 12, Weight = 0, Sharpness = 0.8500000238418579, Kind = 4, kind = "sword"}, {Name = "Main Gauche", Id = 34, MaxDur = 25, CurDur = 25, Stackable = false, Quantity = 1, Damage = 7, Weight = 1, Sharpness = 0.8999999761581421, Kind = 4, Def = {Id = 0, MaxDur = 0, CurDur = 0, Stackable = false, Quantity = 0, ArmourClass = 2}, kind = "dagger"}, {Name = "Healing Herb", Id = 100, MaxDur = 1, CurDur = 1, Stackable = true, Quantity = 2, kind = "static_item"}, {Name = "Iron Longsword", Id = 24, MaxDur = 40, CurDur = 40, Stackable = false, Quantity = 1, Damage = 12, Weight = 0, Sharpness = 0.8500000238418579, Kind = 4, kind = "sword"}, {Name = "Main Gauche", Id = 34, MaxDur = 25, CurDur = 25, Stackable = false, Quantity = 1, Damage = 7, Weight = 1, Sharpness = 0.8999999761581421, Kind = 4, Def = {Id = 0, MaxDur = 0, CurDur = 0, Stackable = false, Quantity = 0, ArmourClass = 2}, kind = "dagger"}]
+StoredItems = []
+TeamStatus = []
+[PlayerSpellSet]
+Archer = ["GOODBERRY", "HAIL_OF_THORNS", "ENTANGLE", "PROTECTION_FROM_ENERGY"]
+Wizard = ["RAY_OF_FROST", "ACID_SPLASH", "FIRE_BOLT", "MAGIC_MISSILE", "EARTH_TREMOR", "SHATTER", "SCORCHING_RAY", "FIREBALL", "MELFS_MINUTE_METEORS", "POISON_SPRAY", "IMMOLATION"]
+Cleric = ["GUIDED_DANCE", "SACRED_FLAME", "CONTROLLED_FLAMES", "MASS_CURE", "HEALING_THE_WORLD", "PHYSICAL_PROTECTION", "BANISHMENT", "MASS_HEALING_SOUND", "HEAL"]
+Gladiator = []
