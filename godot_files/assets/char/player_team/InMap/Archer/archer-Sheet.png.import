@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d105g56dg6wg6"
-path="res://.godot/imported/face_archer.png-b78e9233037d108580eba8ee751107c2.ctex"
+uid="uid://c2moafw848upv"
+path="res://.godot/imported/archer-Sheet.png-2952dc033209527e4686d13ef953c454.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/char/player_team/InMap/Archer/face_archer.png"
-dest_files=["res://.godot/imported/face_archer.png-b78e9233037d108580eba8ee751107c2.ctex"]
+source_file="res://assets/char/player_team/InMap/Archer/archer-Sheet.png"
+dest_files=["res://.godot/imported/archer-Sheet.png-2952dc033209527e4686d13ef953c454.ctex"]
 
 [params]
 
