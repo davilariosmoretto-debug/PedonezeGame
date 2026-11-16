@@ -42,6 +42,9 @@ namespace CharacterFile
     public abstract partial class Combatant : Character2D
     {
 
+        private const int MAX_ARMOUR = 20;
+        private const int MAX_INITIATIVE_BONUS = 20;
+
         protected Combatant(
                 string name,
                 int healthMax,
@@ -78,81 +81,56 @@ namespace CharacterFile
         public int Armour
         {
             get => armour;
-            set => armour = Math.Clamp(value, 0, 20);
+            set => armour = Math.Clamp(value, 0, MAX_ARMOUR);
         }
 
         public int InitiativeBonus
         {
             get => initiativeBonus;
-            set => initiativeBonus = Math.Clamp(value, 0, 20);
+            set => initiativeBonus = Math.Clamp(value, 0, MAX_INITIATIVE_BONUS);
         }
     }
     // methods/functions
     public abstract partial class Combatant {        
-        public void Stats()
-        {
-            GD.Print(
-                $"\n{Name}: {Health} HP, " +
-                $"{Armour} AC, {InitiativeBonus} IB, " +
-                $"{Xp} XP");
-        }
+        public bool ValidTurn() => !( ActiveEffects.Any(eff => eff.Kind == EffectKind.Numbness) || Health <= 0);
 
-        public bool ValidTurn() {
-            return 
-                ActiveEffects.Any(eff => eff.Kind == EffectKind.Numbness) ||
-                Health <= 0;
-        }
-
-        public void AttackTarget(Attack attack, Combatant target) {
-            attack.ApplyResistance(target);
-            attack.ApplyBoost(this);
-            target.Health -= attack.Damage;
-
-
-            if (target is MainCharacter main) {
+        private void throwDamage(Attack atk, Combatant comb) {
+            if (comb is MainCharacter main) {
                 main.Card.UpdateValues(main);
                 ThrowEvent(new Event("damage text", EventKind.Label, 
-                    EventBody.Label(main.Card.DamageLabel, $"{attack.Damage}")));
+                    EventBody.Label(main.Card.DamageLabel, $"{atk.Damage}")));
                 ThrowEvent(new Event("damage animation", EventKind.Animation,
                     EventBody.Animation(main.Card.Anim, "PlayerDamage", 500)));
             }
 
-            else if (target is Enemy enm) { 
+            else if (comb is Enemy enm) { 
                 enm.Card.UpdateValues(enm); 
                 ThrowEvent(new Event("damage text", EventKind.Label, 
-                    EventBody.Label(enm.Card.DamageLabel, $"{attack.Damage}")));
+                    EventBody.Label(enm.Card.DamageLabel, $"{atk.Damage}")));
                 ThrowEvent(new Event("damage animation", EventKind.Animation,
                     EventBody.Animation(enm.Card.Anim, "EnemyDamage", 500)));
             }    
         }
 
-        public void AttackTarget(Attack attack) {
+        private int processAttack(Attack atk, Combatant comb) {
+            atk.ApplyResistance(comb);
+            atk.ApplyBoost(this);
+            return atk.Damage;
+        }
+
+        public void AttackTarget(Attack attack, Combatant target) {
+            target.Health -= processAttack(attack, target);
+            throwDamage(attack, target);
+        }
+
+        public void AttackTarget(Attack attack, Combatant[] group) {
             if (attack.Range == ActRange.Broad) {
-                foreach (Combatant target in All) {
-
-                    attack.ApplyResistance(target);
-                    attack.ApplyBoost(this);
-
-                    target.Health -= attack.Damage;
-
-                    if (target is MainCharacter main) {
-                        main.Card.UpdateValues(main);
-                        ThrowEvent(new Event("damage text", EventKind.Label, 
-                            EventBody.Label(main.Card.DamageLabel, $"{attack.Damage}")));
-                        ThrowEvent(new Event("damage animation", EventKind.Animation,
-                            EventBody.Animation(main.Card.Anim, "PlayerDamage")));
-                    }
-
-                    else if (target is Enemy enm) { 
-                        enm.Card.UpdateValues(enm); 
-                        ThrowEvent(new Event("damage text", EventKind.Label, 
-                            EventBody.Label(enm.Card.DamageLabel, $"{attack.Damage}")));
-                        ThrowEvent(new Event("damage animation", EventKind.Animation,
-                            EventBody.Animation(enm.Card.Anim, "EnemyDamage")));
-                    }    
+                foreach (Combatant target in group) {
+                    target.Health -= processAttack(attack, target);
+                    throwDamage(attack, target);
                 }
             } else {
-                throw new ArgumentException("You mut provide a target for an attack of range focused", nameof(ActRange));
+                throw new ArgumentException($"You must provide a target for an attack of range focused {nameof(attack)} {nameof(attack.Range)}");
             }
         }
     }
