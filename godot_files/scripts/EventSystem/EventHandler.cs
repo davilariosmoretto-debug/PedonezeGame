@@ -62,10 +62,10 @@ namespace EventSystem {
     public partial class EventBody : Node {
         public List<Func<Task<int>>> funcs { get; set; } = new();
 
-        public static EventBody ImageUpdate(Panel panel, Image image, string character) {
+        public static EventBody ImageUpdate(Panel panel, Image image) {
             return new EventBody {
                 funcs = [
-                    () => Task.FromResult(changePanelImage(panel, image, character))
+                    () => Task.FromResult(changePanelImage(panel, image))
                 ]
             };
         }
@@ -131,6 +131,7 @@ namespace EventSystem {
 
             node.Play(anim);
             await Task.Delay(delayMs);
+            GD.Print("Animation Have Started Playing");
             return 0;
         }
 
@@ -140,6 +141,7 @@ namespace EventSystem {
 
             node.Play(anim);
             await Task.Delay(delayMs);
+            GD.Print("Animation Have Started Playing");
             return 0;
         }
 
@@ -148,6 +150,7 @@ namespace EventSystem {
 
             node.Play(anim);
             await ToSignal(node, AnimationPlayer.SignalName.AnimationFinished);
+            GD.Print("Animation Played Completely");
             return 0;
         }
 
@@ -156,16 +159,19 @@ namespace EventSystem {
 
             node.Play(anim);
             await ToSignal(node, AnimatedSprite2D.SignalName.AnimationFinished);
+            GD.Print("Animation Played Completely");
             return 0;
         }
 
         private static int toggleVisibility(Control node) {
             node.Visible = !node.Visible;
+            GD.Print("visiblility set");
             return 0;
         }
         
         private static int toggleVisibility(Node2D node) {
             node.Visible = !node.Visible;
+            GD.Print("visiblility set");
             return 0;
         }
 
@@ -176,10 +182,11 @@ namespace EventSystem {
             }
 
             label.Text = content;
+            GD.Print("Changed Label Text");
             return 0;
         }
 
-        private static int changePanelImage(Panel panel, Image image, string character) {
+        private static int changePanelImage(Panel panel, Image image) {
             if (panel == null || image == null) {
                 GD.PushError("changePanelImage: null reference.");
                 return 1;
@@ -188,6 +195,7 @@ namespace EventSystem {
             ImageTexture texture = ImageTexture.CreateFromImage(image);
             StyleBoxTexture style = new StyleBoxTexture { Texture = texture };
             panel.AddThemeStyleboxOverride("panel", style);
+            GD.Print("Changed Panel");
             return 0;
         }
     }

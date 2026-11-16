@@ -1,4 +1,5 @@
 using Dice;
+using Godot;
 using System;
 using PhyAttack;
 using MagicSystem;
@@ -191,41 +192,35 @@ namespace MagicSystem {
 namespace CharacterFile {
     public abstract partial class Combatant {
         public virtual void CastSpell(Spell spell) {
-            if (spell.Range == ActRange.Broad) {
-                foreach (Effect effect in spell.SpellEffect) {
-                    foreach (Combatant enemy in Combatant.Enemy) {
-                        enemy.ActiveEffects.Add(effect);
-                    }
-                }
-            } else if (spell.Range == ActRange.Self) {
-                foreach (Effect effect in spell.SpellEffect) {
-                    this.ActiveEffects.Add(effect);
-                }
+            if (spell.Range != ActRange.Self) {
+                GD.PrintErr("The only overload of CastSpell which takes 1 parameter is the self focused");
+                return;
+            }
+            foreach (Effect effect in spell.SpellEffect) {
+                this.ActiveEffects.Add(effect);
+            }
+        }
+
+
+        public virtual void CastSpell(Spell spell, Combatant[] targetGroup) {
+            if (spell.Range != ActRange.Self) {
+                GD.PrintErr("The only overload of CastSpell which takes 1 parameter of type array of combatants is for casting broad ranged spells");
+                return;
+            }
+            foreach (Effect effect in spell.SpellEffect) {
+                foreach (Combatant comb in targetGroup) comb.ActiveEffects.Add(effect);
             }
         }
 
         public virtual void CastSpell(Spell spell, Combatant target) {
-            if (spell.Range == ActRange.Focused) {
-                
-                int targetIndex = Combatant.All.IndexOf(target);
-
-                foreach (Effect effect in spell.SpellEffect) {
-                    Combatant.All[targetIndex].ActiveEffects.Add(effect);
-                }
+            if (spell.Range != ActRange.Focused) {
+                GD.PrintErr("The only overload of CastSpell which takes a parameter of type combatant is for casting focused spells");
+                return;
+            }
+            foreach (Effect effect in spell.SpellEffect) {
+                target.ActiveEffects.Add(effect);
             }
         }
 
-        public static void DealEffect() {
-            foreach (Combatant combatant in Combatant.All) {
-                foreach (Effect effect in combatant.ActiveEffects) {
-                    if (effect.Lasting == 0) {
-                        combatant.ActiveEffects.Remove(effect);
-                    } else {
-                        effect.ApplyEffect(combatant);
-                        effect.Lasting--;
-                    }
-                }
-            }
-        }
     }
 }

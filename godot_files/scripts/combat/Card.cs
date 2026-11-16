@@ -10,7 +10,7 @@ using static EventSystem.EventBody;
 namespace CardFile {
     public abstract partial class Card : Control {
         public Label HealthLabel { get; protected set; }
-        public Label CharacterName { get; protected set; }
+        public Label NameLabel { get; protected set; }
         public Combatant ValueProvider { get; set; }
     }
 }

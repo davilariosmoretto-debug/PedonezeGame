@@ -277,6 +277,8 @@ text = "ASDKML"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CombatManager/UI" unique_id=2089529620]
+
 [node name="AttackSets" type="Control" parent="CombatManager" unique_id=305801627]
 anchors_preset = 0
 offset_right = 40.0

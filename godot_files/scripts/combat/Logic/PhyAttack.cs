@@ -30,6 +30,7 @@ namespace PhyAttack {
             GD.Print($"Effects: {target.ActiveEffects.Count}");
             foreach (Effect eff in target.ActiveEffects) {
                 GD.Print("Entered the foreach");
+                GD.Print($"Effect type: {eff.GetType().FullName}");
                 if (eff is Resistance res) {
                     GD.Print($"{eff} is Resistance");
                     if (res.ResKind.Contains(this.Kind)) {
@@ -38,6 +39,7 @@ namespace PhyAttack {
                     }
                 }
             }
+            GD.Print("Exited the foreach");
         }
 
         public void ApplyThorns(Combatant target, Combatant attacker) {

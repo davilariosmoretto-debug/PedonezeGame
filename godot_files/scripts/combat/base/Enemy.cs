@@ -95,7 +95,7 @@ namespace GenericEnemy
 
                 switch (attack.Range) {
                     case ActRange.Broad:
-                        AttackTarget(attack);
+                        AttackTarget(attack, Combatant.All.Where(comb => comb is MainCharacter).ToArray());
                         break;
 
                     case ActRange.Focused:

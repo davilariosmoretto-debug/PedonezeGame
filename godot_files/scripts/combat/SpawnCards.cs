@@ -111,17 +111,7 @@ namespace SpawnCardsFile
                 Control cardScene = GenericPlayerTeamCardScene.Instantiate<Control>();
                 playerCardRow.AddChild(cardScene);
 
-                string characterFacePath = character switch {
-                    Gladiator _ => "res://assets/char/player_team/InBattle/FaceGladiator.png",
-                    Cleric _ => "res://assets/char/player_team/InBattle/FaceCleric.png",
-                    Archer _ => "res://assets/char/player_team/InBattle/FaceArcher.png", 
-                    Wizard _ => "res://assets/char/player_team/InBattle/FaceWizard.png",
-                    _ => ""
-                };
-
-
                 MainCharacterCard characterCard = cardScene.GetNode<MainCharacterCard>("CharacterCard");
-                characterCard.SetCharacterFaceImage(ProjectSettings.GlobalizePath(characterFacePath));
                 characterCard.UpdateValues(character);
 
                 character.Card = characterCard;

@@ -26,11 +26,21 @@ namespace CombatManagerFile {
 
     public partial class CombatManager : Control
     {
-        private const int ATTACK_OPTION = 0;
-        private const int SPELL_OPTION = 1;
+        private const EffectKind REMOVE_CONDITION = EffectKind.RemoveCondition;
+        private const EffectKind DAMAGE_BOOST     = EffectKind.DamageBoost;
+        private const EffectKind RESISTANCE      = EffectKind.Resistance;
+        private const EffectKind IMMUNITY        = EffectKind.Immunity;
+        private const EffectKind HEALING         = EffectKind.Healing;
+        private const EffectKind DEFENSE         = EffectKind.Defense;
+        private const EffectKind THORNS          = EffectKind.Thorns;
+        private const EffectKind REPLAY          = EffectKind.Replay;
+
+        private const int ATTACK_OPTION    = 0;
+        private const int SPELL_OPTION     = 1;
         private const int INVENTORY_OPTION = 2;
 
         private const bool TWO_HANDED = true;
+        private static EffectKind[] GOOD_EFFECTS = [REMOVE_CONDITION, DAMAGE_BOOST, RESISTANCE, IMMUNITY, HEALING, DEFENSE, THORNS, REPLAY];
 
         public static ItemList menu;
         public static AnimationPlayer animationManager;
@@ -47,7 +57,7 @@ namespace CombatManagerFile {
             if (list.Count() != 0) {
                 if (list.Last().ToString() == "SkipBack") { 
                     skipBack = true;
-                    list.RemoveAt(list.Count -1);
+                    list.RemoveAt(list.Count() -1);
                 }
                 foreach (T element in list) {
                     menu.AddItem(element.ToString(),null,true);
@@ -78,9 +88,6 @@ namespace CombatManagerFile {
         // Called when the node enters the scene tree for the first time.
 		public override void _Ready() {
             menu = GetNode<ItemList>("UI/Menu/MenuBg/MenuList");
-
-            menu.ItemActivated -= OnItemActivated;
-            menu.ItemActivated += OnItemActivated;
 
             animationManager = GetNode<AnimationPlayer>("/root/Control/AnimationPlayer");
             InventoryAPI inv = new();
@@ -273,38 +280,71 @@ namespace CombatManagerFile {
 
             spellApi.CloseSpellInventory();
 
-            switch (spell.Range) {
-                case ActRange.Self:
-                case ActRange.Broad:
-                    hero.CastSpell(spell);
-                    return true;
+            if (spell.Range == ActRange.Self) {
+                hero.CastSpell(spell);
+                return true;
+            } else {
+                if (spell.SpellEffect.Any(eff => GOOD_EFFECTS.Contains(eff.Kind))) {
+                    switch (spell.Range) {
+                        case ActRange.Broad:
+                            hero.CastSpell(spell);
+                            return true;
+                        case ActRange.Focused:
+                            var targets = Combatant.All
+                                .OfType<MainCharacter>()
+                                .Where(main => main.Health > 0)
+                                .ToList();
 
-                case ActRange.Focused:
-                    var targets = Combatant.All
-                        .OfType<Enemy>()
-                        .Where(enemy => enemy.Health > 0)
-                        .ToList();
+                            if (targets.Count == 0)
+                                return true; // Spell selected, but there is no valid target.
 
-                    if (targets.Count == 0)
-                        return true; // Spell selected, but there is no valid target.
+                            ListToItemList(targets.Select(main => main.Name).ToList());
+                            menu.GrabFocus();
 
-                    ListToItemList(targets.Select(enemy => enemy.Name).ToList());
-                    menu.GrabFocus();
+                            int targetIndex = await WaitForActiveAsync();
 
-                    int targetIndex = await WaitForActiveAsync();
+                            // Back from target selection: return to the spell list.
+                            if (targetIndex < 0 || targetIndex >= targets.Count)
+                                return false;
 
-                    // Back from target selection: return to the spell list.
-                    if (targetIndex < 0 || targetIndex >= targets.Count)
-                        return false;
+                            hero.CastSpell(spell, targets[targetIndex]);
+                            return true;
 
-                    hero.CastSpell(spell, targets[targetIndex]);
-                    return true;
+                        default:
+                            return true;
+                    }
+                } else {
+                    switch (spell.Range) {
+                        case ActRange.Broad:
+                            hero.CastSpell(spell);
+                            return true;
+                        case ActRange.Focused:
+                            var targets = Combatant.All
+                                .OfType<Enemy>()
+                                .Where(enemy => enemy.Health > 0)
+                                .ToList();
 
-                default:
-                    return true;
+                            if (targets.Count == 0)
+                                return true; // Spell selected, but there is no valid target.
+
+                            ListToItemList(targets.Select(enemy => enemy.Name).ToList());
+                            menu.GrabFocus();
+
+                            int targetIndex = await WaitForActiveAsync();
+
+                            // Back from target selection: return to the spell list.
+                            if (targetIndex < 0 || targetIndex >= targets.Count)
+                                return false;
+
+                            hero.CastSpell(spell, targets[targetIndex]);
+                            return true;
+
+                        default:
+                            return true;
+                    }
+                }
             }
         }
-
 
         private static async Task<bool> attackOpt(MainCharacter hero) {
             var targets = Combatant.All

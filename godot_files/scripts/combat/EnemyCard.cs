@@ -13,7 +13,7 @@ namespace CardFile {
         private Image characterFaceImage;
 
         public override void _Ready() {
-            CharacterName      = GetNode<Label>("statsPanel/labelHolder/name");
+            NameLabel      = GetNode<Label>("statsPanel/labelHolder/name");
             HealthLabel        = GetNode<Label>("statsPanel/values/hpValue");
             Anim               = GetNode<AnimationPlayer>("AnimationPlayer");
             DamageLabel        = GetNode<Label>("DamageLabel");
@@ -25,11 +25,14 @@ namespace CardFile {
 
         public  void UpdateValues(Enemy enemy) {
                 ThrowEvent(new Event("Sets The Label <Name>", EventKind.Label,
-                    Label(CharacterName, enemy.Name)));
+                    Label(NameLabel, enemy.Name)));
+                GD.Print($"Sets The Label <Name> for {enemy.Name}");
                 ThrowEvent(new Event("Sets The Image <CharacterFace>", EventKind.ImageUpdate,
-                    ImageUpdate(CharacterFacePanel, characterFaceImage, "ClericFace")));
+                    ImageUpdate(CharacterFacePanel, characterFaceImage)));
+                GD.Print($"Sets The Image <CharacterFace> for {enemy.Name}");
                 ThrowEvent(new Event("Sets The Label <Health>", EventKind.Label,
                     Label(HealthLabel,$"{enemy.Health}/{enemy.healthMax}")));
+                GD.Print($"Sets The Label <Health> for {enemy.Name}");
         }
     }
 }

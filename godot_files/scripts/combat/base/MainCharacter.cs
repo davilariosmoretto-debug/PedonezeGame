@@ -12,10 +12,6 @@ using MagicSystem;
 
 using CardFile;
 
-using static CombatManagerFile.CombatManager;
-using static EventSystem.EventHandler;
-using EventSystem;
-
 namespace MainCharacterFile {
     public abstract class MainCharacter : Combatant
     {
@@ -47,10 +43,6 @@ namespace MainCharacterFile {
             set => mana = Math.Clamp(value, 0, manaMax);
         }
 
-        public bool CanPlay(Combatant combatant) {
-            return combatant.Health > 0 || combatant.ActiveEffects.Any(effect => effect.Kind == EffectKind.Numbness);
-        }
-
         private bool IsPreviousOneEnemy() {
             var thisIndex = Combatant.All.IndexOf(this);
             var previousIndex = thisIndex-1;
@@ -62,7 +54,7 @@ namespace MainCharacterFile {
         }
 
         public async Task HeroTurn() {
-            if (CanPlay(this)) await CombatManager.TakeAction(this);
+            await CombatManager.TakeAction(this);
             return;
         }
 
@@ -71,14 +63,16 @@ namespace MainCharacterFile {
           
         public override void CastSpell(Spell spell) {
             switch (spell.Range) {
-                case ActRange.Broad:
-                    foreach (Effect effect in spell.SpellEffect) {
-                        foreach (Combatant enemy in Combatant.Enemy) enemy.ActiveEffects.Add(effect);
-                    }
-                    break;
                 case ActRange.Self:
                     foreach (Effect effect in spell.SpellEffect) this.ActiveEffects.Add(effect);
                     break;
+            }
+            this.Mana -= spell.ManaCost;
+        }
+
+        public override void CastSpell(Spell spell, Combatant[] targetGroup) {
+            foreach (Effect effect in spell.SpellEffect) {
+                foreach (Combatant comb in targetGroup) comb.ActiveEffects.Add(effect);
             }
             this.Mana -= spell.ManaCost;
         }

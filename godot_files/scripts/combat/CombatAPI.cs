@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MainCharacterFile;
 using GenericEnemy;
 using EventSystem;
-using System.Linq;
+using MagicSystem;
 using Dice;
 
 
@@ -57,6 +57,9 @@ namespace CombatAPI {
                     if (Combatant.All.Where(comb => comb is Enemy).Count() == 0)         break;
                     if (Combatant.All.Where(comb => comb is MainCharacter).Count() == 0) break;
 
+                    GD.Print($"Turn Of {element.Name}");
+                    if (!element.ValidTurn()) continue;
+
                     if (element is MainCharacter mainCharacter) {
                         if (IsPreviousAdversary(mainCharacter) || isFirstRound)
                             ThrowEvent(new Event("Slides Menu In", EventKind.Animation,
@@ -74,11 +77,30 @@ namespace CombatAPI {
                         enemy.EnemyTurn();
                     }
 
+                    foreach (Combatant comb in Combatant.All.ToList()) {
+                        if (comb is Enemy enemy)
+                            enemy.Card.UpdateValues(enemy);
+                        else if (comb is MainCharacter main)
+                            main.Card.UpdateValues(main);
+
+                        if (comb.Health <= 0) {
+                            Combatant.All.Remove(comb);
+                            continue;
+                        }
+
+                        foreach (Effect effect in comb.ActiveEffects.ToList()) {
+                            if (effect.Lasting <= 0) {
+                                comb.ActiveEffects.Remove(effect);
+                            } else {
+                                effect.ApplyEffect(comb);
+                                effect.Lasting--;
+                            }
+                        }
+                    }
+                    
                     if (Combatant.All.Where(comb => comb is Enemy).Count() == 0)         break;
                     if (Combatant.All.Where(comb => comb is MainCharacter).Count() == 0) break;
 
-                    Combatant.All.RemoveAll(elements => elements.Health == 0);
-                    Combatant.DealEffect();
                     isFirstRound = false;
                 }
             }
