@@ -1,0 +1,306 @@
+[gd_scene format=3 uid="uid://cajsi43emobyb"]
+
+[ext_resource type="Script" uid="uid://c86m2nnjt82n4" path="res://scripts/EventSystem/EventHandler.cs" id="1_0oem2"]
+[ext_resource type="Theme" uid="uid://di073hlce4718" path="res://assets/ui/ui_base_theme.tres" id="1_3aavs"]
+[ext_resource type="Script" uid="uid://du0olfch17uje" path="res://scripts/NotesSystem/BookStyle.cs" id="1_jcfy1"]
+[ext_resource type="Texture2D" uid="uid://c148eb5cwadl3" path="res://assets/ui/Others/Book.png" id="2_jcfy1"]
+[ext_resource type="Script" uid="uid://037indlgg2hj" path="res://scripts/NotesSystem/Layout/LayoutManager.cs" id="3_tnqrm"]
+[ext_resource type="FontFile" uid="uid://cu7io2m3wpksr" path="res://assets/ui/fonts/Cavalhatriz.ttf" id="4_uxmdi"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e0cq4"]
+texture = ExtResource("2_jcfy1")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0oem2"]
+bg_color = Color(0, 0.17254902, 0.49411765, 0.6509804)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 0.8, 1)
+border_blend = true
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="LabelSettings" id="LabelSettings_e0cq4"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_uxmdi"]
+line_spacing = 0.0
+font_size = 20
+
+[sub_resource type="Animation" id="Animation_3aavs"]
+resource_name = "CloseBook"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BookBase:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BookBase:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.1, 1),
+"update": 0,
+"values": [125.0, 550.0]
+}
+
+[sub_resource type="Animation" id="Animation_jcfy1"]
+resource_name = "OpenBook"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BookBase:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.15, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BookBase:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.15, 1),
+"update": 0,
+"values": [550.0, 125.0]
+}
+
+[sub_resource type="Animation" id="Animation_0oem2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BookBase:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BookBase:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [125.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HelpPanel:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [850.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uxmdi"]
+_data = {
+&"CloseBook": SubResource("Animation_3aavs"),
+&"OpenBook": SubResource("Animation_jcfy1"),
+&"RESET": SubResource("Animation_0oem2")
+}
+
+[sub_resource type="Animation" id="Animation_uxmdi"]
+resource_name = "InThenOutHelpMenu"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../HelpPanel:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 6, 8),
+"transitions": PackedFloat32Array(0.5, 1, 0.3, 1),
+"update": 0,
+"values": [1200.0, 850.0, 850.0, 1200.0]
+}
+
+[sub_resource type="Animation" id="Animation_ii040"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../HelpPanel:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1200.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_myiqj"]
+_data = {
+&"InThenOutHelpMenu": SubResource("Animation_uxmdi"),
+&"RESET": SubResource("Animation_ii040")
+}
+
+[node name="Control" type="Control" unique_id=203813573]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EventHandler" type="Control" parent="." unique_id=121012950]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_0oem2")
+
+[node name="BookStyle" type="Control" parent="." unique_id=921191945 node_paths=PackedStringArray("AnimationPlayer")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_jcfy1")
+ParagraphFont = ExtResource("4_uxmdi")
+TitleFontSize = 48
+TextColor = Color(0, 0, 0.12941177, 0.93333334)
+TitleTextColor = Color(0.06666667, 0.2, 1, 0.93333334)
+TiltDegrees = 5.0
+BottomMargin = 0.0
+MaxLinesPerParagraph = 5
+AnimationPlayer = NodePath("../AnimationPlayer")
+
+[node name="BookBase" type="Panel" parent="." unique_id=487631185]
+texture_filter = 1
+texture_repeat = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 125.0
+offset_top = 23.0
+offset_right = -127.00122
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_3aavs")
+theme_override_styles/panel = SubResource("StyleBoxTexture_e0cq4")
+
+[node name="Codex" type="HBoxContainer" parent="BookBase" unique_id=439958405]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_top = 32.0
+offset_right = -100.0
+offset_bottom = -118.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_tnqrm")
+
+[node name="CodexManager" type="Control" parent="BookBase/Codex" unique_id=1516707781]
+layout_mode = 2
+
+[node name="LeftClip" type="Control" parent="BookBase/Codex" unique_id=1735197449]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LeftPage" type="VBoxContainer" parent="BookBase/Codex/LeftClip" unique_id=1708228791]
+layout_mode = 0
+
+[node name="RightClip" type="Control" parent="BookBase/Codex" unique_id=430266015]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RightPage" type="VBoxContainer" parent="BookBase/Codex/RightClip" unique_id=1264180201]
+layout_mode = 0
+
+[node name="HelpPanel" type="Panel" parent="." unique_id=1756261623]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1200.0
+offset_top = 100.0
+offset_right = 298.0
+offset_bottom = -373.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_3aavs")
+theme_override_styles/panel = SubResource("StyleBoxFlat_0oem2")
+
+[node name="Title" type="Label" parent="HelpPanel" unique_id=647477834]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 10.0
+offset_bottom = -105.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Help"
+label_settings = SubResource("LabelSettings_e0cq4")
+horizontal_alignment = 1
+
+[node name="Body" type="VBoxContainer" parent="HelpPanel" unique_id=1516167199]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 45.0
+offset_right = -10.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PageControls" type="Label" parent="HelpPanel/Body" unique_id=1829287589]
+layout_mode = 2
+size_flags_vertical = 2
+text = "Right and Left Arrows to turn pages."
+label_settings = SubResource("LabelSettings_uxmdi")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Input" type="Label" parent="HelpPanel/Body" unique_id=2115692338]
+layout_mode = 2
+size_flags_vertical = 2
+text = "Press Enter to confirm an answer"
+label_settings = SubResource("LabelSettings_uxmdi")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1471900025]
+libraries/ = SubResource("AnimationLibrary_uxmdi")
+
+[node name="HelpMenuPlayer" type="AnimationPlayer" parent="." unique_id=625403373]
+root_node = NodePath("../AnimationPlayer")
+libraries/ = SubResource("AnimationLibrary_myiqj")
+autoplay = &"InThenOutHelpMenu"
