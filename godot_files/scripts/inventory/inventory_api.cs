@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace InventoryAPIFile {
 	class InventoryAPI {
 		private Inventory inventory;
-		public static string InventoryFilePath = ProjectSettings.GlobalizePath("res://scripts/inventory/inventory.toml");
+		public static string InventoryFilePath = ProjectSettings.GlobalizePath("user://scripts/inventory/inventory.toml");
 
 		public void OpenInventory() => inventory = Inventory.LoadTOML(InventoryFilePath);
 		public void CloseInventory() => inventory.UpdateTOML(InventoryFilePath);
