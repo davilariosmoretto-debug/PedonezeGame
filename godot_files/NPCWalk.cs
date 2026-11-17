@@ -1,4 +1,3 @@
-
 using Godot;
 
 public partial class NPCWalk : CharacterBody2D
@@ -12,13 +11,18 @@ public partial class NPCWalk : CharacterBody2D
 	[Export]
 	public float WaitAtDestination = 1.0f;
 
+	[Export]
+	public float ArrivalDistance = 8.0f;
+
 	private NavigationAgent2D _agent;
 	private AnimatedSprite2D _sprite;
 
 	private string _currentAnimation = "";
 
 	private Vector2 _startPosition;
+
 	private float _waitTimer = 0.0f;
+
 	private bool _waitingToRestart = false;
 
 	public override async void _Ready()
@@ -26,8 +30,17 @@ public partial class NPCWalk : CharacterBody2D
 		_agent = GetNode<NavigationAgent2D>("NavigationAgent2D");
 		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
-		await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-		await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+		Show();
+
+		await ToSignal(
+			GetTree(),
+			SceneTree.SignalName.PhysicsFrame
+		);
+
+		await ToSignal(
+			GetTree(),
+			SceneTree.SignalName.PhysicsFrame
+		);
 
 		if (Destination == null)
 		{
@@ -51,15 +64,7 @@ public partial class NPCWalk : CharacterBody2D
 
 			if (_waitTimer <= 0.0f)
 			{
-				GlobalPosition = _startPosition;
-
-				Show();
-
-				_currentAnimation = "";
-
-				_agent.TargetPosition = Destination.GlobalPosition;
-
-				_waitingToRestart = false;
+				RestartMovement();
 			}
 
 			return;
@@ -68,24 +73,9 @@ public partial class NPCWalk : CharacterBody2D
 		float distanceToDestination =
 			GlobalPosition.DistanceTo(Destination.GlobalPosition);
 
-		if (distanceToDestination <= 1.0f)
+		if (distanceToDestination <= ArrivalDistance)
 		{
-			GlobalPosition = Destination.GlobalPosition;
-			Velocity = Vector2.Zero;
-
-			_sprite.Stop();
-			Hide();
-
-			_waitTimer = WaitAtDestination;
-			_waitingToRestart = true;
-
-			return;
-		}
-
-		if (_agent.IsNavigationFinished())
-		{
-			Velocity = Vector2.Zero;
-			_sprite.Stop();
+			ArriveAtDestination();
 			return;
 		}
 
@@ -96,9 +86,41 @@ public partial class NPCWalk : CharacterBody2D
 		Velocity = direction * Speed;
 
 		if (direction != Vector2.Zero)
+		{
 			UpdateAnimation(direction);
+		}
 
 		MoveAndSlide();
+	}
+
+	private void ArriveAtDestination()
+	{
+		GlobalPosition = Destination.GlobalPosition;
+
+		Velocity = Vector2.Zero;
+
+		_sprite.Stop();
+
+		Hide();
+
+		_waitTimer = WaitAtDestination;
+
+		_waitingToRestart = true;
+	}
+
+	private void RestartMovement()
+	{
+		GlobalPosition = _startPosition;
+
+		Velocity = Vector2.Zero;
+
+		_currentAnimation = "";
+
+		Show();
+
+		_agent.TargetPosition = Destination.GlobalPosition;
+
+		_waitingToRestart = false;
 	}
 
 	private void UpdateAnimation(Vector2 direction)

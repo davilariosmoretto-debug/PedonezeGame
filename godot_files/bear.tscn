@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://bicw2we1ji8pt"]
+
+[ext_resource type="Script" uid="uid://be60k5u2ct5w3" path="res://enemy_script.cs" id="1_wvk3l"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8ceia"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"Back",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"Front",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"Idle",
+"speed": 4.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"Left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"Right",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 0,
+"name": &"fight",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_balfo"]
+size = Vector2(17, 25)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hq7sg"]
+radius = 70.17637
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=606011140]
+script = ExtResource("1_wvk3l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=774087469]
+texture_filter = 1
+position = Vector2(0, 2)
+sprite_frames = SubResource("SpriteFrames_8ceia")
+animation = &"Front"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1984729409]
+position = Vector2(-0.50000024, -0.49999958)
+shape = SubResource("RectangleShape2D_balfo")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=820188575]
+position = Vector2(-0.50000024, -0.49999958)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=932855106]
+shape = SubResource("CircleShape2D_hq7sg")

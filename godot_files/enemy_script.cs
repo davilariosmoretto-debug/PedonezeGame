@@ -1,4 +1,3 @@
-
 using Godot;
 
 public partial class enemy_script : CharacterBody2D
@@ -18,7 +17,6 @@ public partial class enemy_script : CharacterBody2D
 	private CharacterBody2D _player;
 
 	private EnemyState _state = EnemyState.Idle;
-
 	private string _currentAnimation = "";
 
 	public override void _Ready()
@@ -27,6 +25,7 @@ public partial class enemy_script : CharacterBody2D
 		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		_detectionArea.BodyEntered += OnBodyEntered;
+		_sprite.AnimationFinished += OnAnimationFinished;
 
 		PlayAnimation("Idle");
 	}
@@ -43,7 +42,6 @@ public partial class enemy_script : CharacterBody2D
 			return;
 
 		_player = player;
-
 		_player.SetPhysicsProcess(false);
 
 		_state = EnemyState.Chasing;
@@ -63,7 +61,6 @@ public partial class enemy_script : CharacterBody2D
 		);
 
 		Velocity = direction * Speed;
-
 		MoveAndSlide();
 
 		for (int i = 0; i < GetSlideCollisionCount(); i++)
@@ -83,10 +80,29 @@ public partial class enemy_script : CharacterBody2D
 	private void StartFight()
 	{
 		_state = EnemyState.Fighting;
-
 		Velocity = Vector2.Zero;
 
 		PlayAnimation("fight");
+	}
+
+	private void OnAnimationFinished()
+	{
+		if (_currentAnimation == "fight")
+		{
+			ChangeToBattle();
+		}
+	}
+
+	private void ChangeToBattle()
+	{
+		Error error = GetTree().ChangeSceneToFile(
+            "res://scenes/battle.tscn"
+		);
+
+		if (error != Error.Ok)
+		{
+			GD.PrintErr($"Erro ao carregar a cena de combate: {error}");
+		}
 	}
 
 	private void UpdateAnimation(Vector2 direction)

@@ -200,6 +200,7 @@ animations = [{
 position = Vector2(242, 123)
 
 [node name="fundo_menu" type="AnimatedSprite2D" parent="." unique_id=1383925634]
+texture_filter = 1
 position = Vector2(334.00006, 200.99998)
 scale = Vector2(2.4, 2.7)
 sprite_frames = SubResource("SpriteFrames_jio4w")
