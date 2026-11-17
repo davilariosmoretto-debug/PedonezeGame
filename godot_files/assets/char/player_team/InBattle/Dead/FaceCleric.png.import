@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c74q1p04l0oad"
-path="res://.godot/imported/Untitled 11-08-2026 06-12-12.png-92b4e83e427816857154827cc19e23d6.ctex"
+uid="uid://cdkb266bfdehj"
+path="res://.godot/imported/FaceCleric.png-bee354f9598cb1843475c4f5fd062e08.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/char/Untitled 11-08-2026 06-12-12.png"
-dest_files=["res://.godot/imported/Untitled 11-08-2026 06-12-12.png-92b4e83e427816857154827cc19e23d6.ctex"]
+source_file="res://assets/char/player_team/InBattle/Dead/FaceCleric.png"
+dest_files=["res://.godot/imported/FaceCleric.png-bee354f9598cb1843475c4f5fd062e08.ctex"]
 
 [params]
 
