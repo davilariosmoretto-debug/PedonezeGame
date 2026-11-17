@@ -13,7 +13,7 @@ namespace SpellApiFile
         private Inventory inventory = new();
 
         public static string InventoryFilePath =
-            ProjectSettings.GlobalizePath("user://scripts/inventory/inventory.toml");
+            ProjectSettings.GlobalizePath("user://inventory/inventory.toml");
 
         private static readonly Dictionary<string, Spell> SpellsById = BuildSpellMap();
         private static readonly Dictionary<Spell, string> IdBySpell =

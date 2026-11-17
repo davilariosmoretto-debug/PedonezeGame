@@ -28,7 +28,7 @@ namespace SpawnCardsFile
                 "/root/Control/CombatManager/AttackSets");
 
             GenericPlayerTeamCardScene =
-                GD.Load<PackedScene>(ProjectSettings.GlobalizePath("res://PlayerTeamCard.tscn"));
+                GD.Load<PackedScene>(ProjectSettings.GlobalizePath("res://scenes/ObjectsAsScenes/Cards/PlayerTeamCard.tscn"));
         }
 
         public static void SpawnEnemyCards(Enemy[] enemyTeam) {
