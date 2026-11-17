@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dibo3alobvcu7"
-path="res://.godot/imported/FaceGladiador.png-f53cdc54cdd76baf94cd759756c23145.ctex"
+uid="uid://rs35mvqkh665"
+path="res://.godot/imported/FaceWizard.png-b1a29b70c5225075f03d0f76927b4f8b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/char/player_team/InMap/Gladiator/FaceGladiador.png"
-dest_files=["res://.godot/imported/FaceGladiador.png-f53cdc54cdd76baf94cd759756c23145.ctex"]
+source_file="res://assets/char/player_team/InBattle/Dead/FaceWizard.png"
+dest_files=["res://.godot/imported/FaceWizard.png-b1a29b70c5225075f03d0f76927b4f8b.ctex"]
 
 [params]
 

@@ -22,13 +22,13 @@ namespace NameGenaratorFile {
             switch (genre) {
                 case Genre.Male: {
                     NameArray = File.ReadAllLines(maleNamesPath);
-                    int randomIndex = Random.Shared.Next(0, NameArray.Length+1);
+                    int randomIndex = Random.Shared.Next(0, NameArray.Length);
                     Name = NameArray[randomIndex];
                 } break;
 
                 case Genre.Female: {
                     NameArray = File.ReadAllLines(femaleNamesPath);
-                    int randomIndex = Random.Shared.Next(0, NameArray.Length+1);
+                    int randomIndex = Random.Shared.Next(0, NameArray.Length);
                     Name = NameArray[randomIndex];
                 } break;
 
